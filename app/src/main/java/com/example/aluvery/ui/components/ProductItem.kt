@@ -5,6 +5,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -21,10 +22,10 @@ import androidx.compose.ui.tooling.preview.datasource.LoremIpsum
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import br.com.alura.aluvery.extensions.toBrazilianCurrency
-import br.com.alura.aluvery.ui.theme.AluveryTheme
+import com.example.aluvery.ui.theme.AluveryTheme
 import com.example.aluvery.model.Product
-import br.com.alura.aluvery.ui.theme.Purple500
-import br.com.alura.aluvery.ui.theme.Teal200
+import com.example.aluvery.ui.theme.Purple500
+import com.example.aluvery.ui.theme.Teal200
 import java.math.BigDecimal
 import com.example.aluvery.R
 
@@ -47,7 +48,8 @@ fun ProductItem(product: Product) {
                     .background(
                         brush = Brush.horizontalGradient(
                             colors = listOf(
-                                Purple500, Teal200
+                                MaterialTheme.colorScheme.primary,
+                                MaterialTheme.colorScheme.secondary
                             )
                         )
                     )
