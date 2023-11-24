@@ -7,6 +7,7 @@ import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import com.example.aluvery.ui.screens.HomeScreen
 import br.com.alura.aluvery.ui.theme.AluveryTheme
+import com.example.aluvery.sampledata.sampleSections
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -21,7 +22,7 @@ class MainActivity : ComponentActivity() {
 fun App() {
     AluveryTheme {
         Surface {
-            HomeScreen()
+            HomeScreen(sampleSections)
         }
     }
 }
