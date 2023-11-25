@@ -5,15 +5,18 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.darkColorScheme
 import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.graphics.Color
 
 private val DarkColorPalette = darkColorScheme(
-    primary = Purple200,
-    secondary = Teal200
+    primary = Indigo400,
+    secondary = Indigo500,
+    onSecondary = Color.White
 )
 
 private val LightColorPalette = lightColorScheme(
-    primary = Purple500,
-    secondary = Teal200
+    primary = Indigo400,
+    secondary = Indigo500,
+    onSecondary = Color.White
 
     /* Other default colors to override
     background = Color.White,
@@ -34,6 +37,7 @@ fun AluveryTheme(darkTheme: Boolean = isSystemInDarkTheme(), content: @Composabl
     }
 
     MaterialTheme(
+        colorScheme = colors,
         typography = Typography,
         shapes = Shapes,
         content = content
