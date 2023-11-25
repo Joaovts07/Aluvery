@@ -22,10 +22,9 @@ import androidx.compose.ui.tooling.preview.datasource.LoremIpsum
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import br.com.alura.aluvery.extensions.toBrazilianCurrency
+import coil.compose.AsyncImage
 import com.example.aluvery.ui.theme.AluveryTheme
 import com.example.aluvery.model.Product
-import com.example.aluvery.ui.theme.Purple500
-import com.example.aluvery.ui.theme.Teal200
 import java.math.BigDecimal
 import com.example.aluvery.R
 
@@ -55,15 +54,17 @@ fun ProductItem(product: Product) {
                     )
                     .fillMaxWidth()
             ) {
-                Image(
-                    painter = painterResource(id = R.drawable.placeholder),
+                AsyncImage(
+                    model = product.image,
                     contentDescription = null,
                     Modifier
                         .size(imageSize)
                         .offset(y = imageSize / 2)
                         .clip(shape = CircleShape)
                         .align(Alignment.BottomCenter),
-                    contentScale = ContentScale.Crop
+                    contentScale = ContentScale.Crop,
+                    placeholder = painterResource(id = R.drawable.placeholder)
+
                 )
             }
             Spacer(modifier = Modifier.height(imageSize / 2))
