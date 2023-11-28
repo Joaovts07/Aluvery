@@ -1,5 +1,6 @@
 package com.example.aluvery.sampledata
 
+import androidx.compose.ui.tooling.preview.datasource.LoremIpsum
 import com.example.aluvery.model.Product
 import java.math.BigDecimal
 
@@ -8,6 +9,7 @@ val sampleCandies = listOf(
         name = "Chocolate",
         price = BigDecimal("3.99"),
         image = "https://images.pexels.com/photos/65882/chocolate-dark-coffee-confiserie-65882.jpeg",
+        description = LoremIpsum(25).values.first()
     ),
     Product(
         name = "Sorvete",
@@ -48,7 +50,8 @@ val sampleProducts: List<Product> = listOf(
     Product(
         name = "Hamburguer",
         price = BigDecimal("12.99"),
-        image = "https://images.pexels.com/photos/1639557/pexels-photo-1639557.jpeg"
+        image = "https://images.pexels.com/photos/1639557/pexels-photo-1639557.jpeg",
+        description = LoremIpsum(25).values.first()
     ),
     Product(
         name = "Pizza",
@@ -58,7 +61,8 @@ val sampleProducts: List<Product> = listOf(
     Product(
         name = "Batata frita",
         price = BigDecimal("7.99"),
-        image = "https://images.pexels.com/photos/1583884/pexels-photo-1583884.jpeg"
+        image = "https://images.pexels.com/photos/1583884/pexels-photo-1583884.jpeg",
+        description = LoremIpsum(25).values.first()
     ), *sampleDrinks.toTypedArray(), *sampleCandies.toTypedArray()
 )
 
