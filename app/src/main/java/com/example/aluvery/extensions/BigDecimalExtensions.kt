@@ -1,4 +1,4 @@
-package br.com.alura.aluvery.extensions
+package com.example.aluvery.extensions
 
 import java.math.BigDecimal
 import java.text.NumberFormat

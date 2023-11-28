@@ -18,9 +18,10 @@ import com.example.aluvery.sampledata.sampleProducts
 @Composable
 fun ProductsSection(
     title: String,
-    products: List<Product>
+    products: List<Product>,
+    modifier: Modifier = Modifier
 ) {
-    Column {
+    Column(modifier) {
         Text(
             text = title,
             Modifier.padding(
