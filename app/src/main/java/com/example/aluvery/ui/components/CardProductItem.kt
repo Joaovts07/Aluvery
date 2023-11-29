@@ -73,30 +73,31 @@ fun CardProductItem(
                     text = product.price.toBrazilianCurrency()
                 )
             }
-            if (expanded) {
-                product.description?.let {
-                    Text(
-                        text = it,
-                        Modifier
-                            .padding(16.dp)
-                    )
-                }
-            } else {
-                product.description?.let {
-                    Text(
-                        text = it.filterText(),
-                        Modifier
-                            .padding(16.dp)
-                    )
-                }
-            }
+            ShowDescripiton(expanded, product)
 
         }
     }
 }
 
-val onClickListener = {
-    println("O card foi clicado.")
+@Composable
+private fun ShowDescripiton(expanded: Boolean, product: Product) {
+    if (expanded) {
+        product.description?.let {
+            Text(
+                text = it,
+                Modifier
+                    .padding(16.dp)
+            )
+        }
+    } else {
+        product.description?.let {
+            Text(
+                text = it.filterText(),
+                Modifier
+                    .padding(16.dp)
+            )
+        }
+    }
 }
 
 @Preview
