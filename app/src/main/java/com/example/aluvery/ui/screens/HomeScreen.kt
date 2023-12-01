@@ -32,34 +32,26 @@ import com.example.aluvery.ui.components.ProductsSection
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun HomeScreen(
-    sections: Map<String,List<Product>>
+    sections: Map<String, List<Product>>
 ) {
     Column {
         var text by remember { mutableStateOf("") }
-        OutlinedTextField(
-            value = text,
-            onValueChange = { newValue ->
-                text = newValue
-            },
+        OutlinedTextField(value = text, onValueChange = { newValue ->
+            text = newValue
+        },
             Modifier
                 .padding(
                     16.dp
                 )
-                .fillMaxWidth(),
-            shape = RoundedCornerShape(100),
-            leadingIcon = {
-                Icon(Icons.Default.Search, contentDescription = null)
-            },
-            label = {
-                Text(text = "Produto")
-            },
-            placeholder = {
-                Text(text = "O que você procura?")
-            }
-        )
+                .fillMaxWidth(), shape = RoundedCornerShape(100), leadingIcon = {
+            Icon(Icons.Default.Search, contentDescription = null)
+        }, label = {
+            Text(text = "Produto")
+        }, placeholder = {
+            Text(text = "O que você procura?")
+        })
         LazyColumn(
-            Modifier
-                .fillMaxSize(),
+            Modifier.fillMaxSize(),
             verticalArrangement = Arrangement.spacedBy(16.dp),
             contentPadding = PaddingValues(bottom = 16.dp)
         ) {
@@ -69,13 +61,15 @@ fun HomeScreen(
                     val products = section.value
                     item {
                         ProductsSection(
-                            title = title,
-                            products = products
+                            title = title, products = products
                         )
                     }
                 }
             } else {
-                items(sampleProducts) { product ->
+                items(sampleProducts.filter {
+                    it.name.contains(text,true) ||
+                            it.description?.contains(text,true) ?: false
+                }) { product ->
                     CardProductItem(
                         product = product,
                         Modifier.padding(horizontal = 32.dp),
@@ -85,7 +79,8 @@ fun HomeScreen(
         }
     }
 }
-@Preview(showSystemUi = true)
+
+@Preview()
 @Composable
 fun HomeScreenPreview() {
     HomeScreen(sampleSections)
