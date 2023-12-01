@@ -27,6 +27,7 @@ import com.example.aluvery.model.Product
 import com.example.aluvery.sampledata.sampleProducts
 import com.example.aluvery.sampledata.sampleSections
 import com.example.aluvery.ui.components.CardProductItem
+import com.example.aluvery.ui.components.ProductsSection
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -47,7 +48,7 @@ fun HomeScreen(
                 .fillMaxWidth(),
             shape = RoundedCornerShape(100),
             leadingIcon = {
-                Icon(Icons.Default.Search,contentDescription = null)
+                Icon(Icons.Default.Search, contentDescription = null)
             },
             label = {
                 Text(text = "Produto")
@@ -62,28 +63,28 @@ fun HomeScreen(
             verticalArrangement = Arrangement.spacedBy(16.dp),
             contentPadding = PaddingValues(bottom = 16.dp)
         ) {
-            items(sampleProducts) { product ->
-                CardProductItem(
-                    product = product,
-                    Modifier.padding(horizontal = 32.dp),
-                )
-            }
-            /*for (section in sections) {
-                val title = section.key
-                val products = section.value
-                item {
-                    ProductsSection(
-                        title = title,
-                        products = products
+            if (text.isBlank()) {
+                for (section in sections) {
+                    val title = section.key
+                    val products = section.value
+                    item {
+                        ProductsSection(
+                            title = title,
+                            products = products
+                        )
+                    }
+                }
+            } else {
+                items(sampleProducts) { product ->
+                    CardProductItem(
+                        product = product,
+                        Modifier.padding(horizontal = 32.dp),
                     )
                 }
-
-            }*/
-
+            }
         }
     }
 }
-
 @Preview(showSystemUi = true)
 @Composable
 fun HomeScreenPreview() {
