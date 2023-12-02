@@ -32,10 +32,14 @@ import com.example.aluvery.ui.components.ProductsSection
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun HomeScreen(
-    sections: Map<String, List<Product>>
+    sections: Map<String,List<Product>>,
+    searchText: String = ""
 ) {
     Column {
-        var text by remember { mutableStateOf("") }
+        var text by remember { mutableStateOf(searchText) }
+        val sampleProductFiltered = remember(text) {
+            searchProducts(text)
+        } 
         OutlinedTextField(value = text, onValueChange = { newValue ->
             text = newValue
         },
@@ -66,10 +70,7 @@ fun HomeScreen(
                     }
                 }
             } else {
-                items(sampleProducts.filter {
-                    it.name.contains(text,true) ||
-                            it.description?.contains(text,true) ?: false
-                }) { product ->
+                items(sampleProductFiltered) { product ->
                     CardProductItem(
                         product = product,
                         Modifier.padding(horizontal = 32.dp),
@@ -80,8 +81,27 @@ fun HomeScreen(
     }
 }
 
-@Preview()
+private fun searchProducts(text: String): List<Product> {
+     return if (text.isNotBlank()) {
+        sampleProducts.filter {
+            it.name.contains(text,true) ||
+                    it.description?.contains(text,true) ?: false
+        }
+    } else {
+        emptyList()
+    }
+}
+
+@Preview(showSystemUi = true)
 @Composable
 fun HomeScreenPreview() {
     HomeScreen(sampleSections)
+}
+
+@Preview(showSystemUi = true)
+@Composable
+fun HomeScreenPreviewWithFilter() {
+    HomeScreen(
+        sampleSections,
+        "pizza")
 }
