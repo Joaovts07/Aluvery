@@ -5,11 +5,14 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Surface
@@ -40,7 +43,7 @@ class ProductFormActivity: ComponentActivity() {
         setContent {
             AluveryTheme {
                 Surface {
-                    Text(text= "teste de texto")
+                    ProductFormScreen()
                 }
             }
         }
@@ -53,9 +56,11 @@ fun ProductFormScreen() {
     Column(
         Modifier
             .fillMaxSize()
-            .padding(16.dp),
+            .padding(horizontal = 16.dp)
+            .verticalScroll(rememberScrollState()),
         verticalArrangement = Arrangement.spacedBy(16.dp)
         ) {
+        Spacer(modifier = Modifier)
         Text(text = "Criando o produto", Modifier.fillMaxWidth(), fontSize = 28.sp)
         var url by remember {
             mutableStateOf("")
@@ -118,9 +123,12 @@ fun ProductFormScreen() {
                  price = convertedPrice,
                  description = description
              )
-             }, Modifier.fillMaxWidth(), shape = RectangleShape, ) {
-    Text(text = "Salvar")
-        }
+             },
+            Modifier.fillMaxWidth(), shape = RectangleShape,
+            ) {
+            Text(text = "Salvar")
+            }
+        Spacer(modifier = Modifier)
     }
 }
 
