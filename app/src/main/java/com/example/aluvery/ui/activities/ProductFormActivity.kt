@@ -38,6 +38,7 @@ import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
 import com.example.aluvery.R
 import com.example.aluvery.model.Product
+import com.example.aluvery.ui.components.ColumnTextFieldError
 import com.example.aluvery.ui.theme.AluveryTheme
 import java.lang.NumberFormatException
 import java.math.BigDecimal
@@ -114,38 +115,18 @@ fun ProductFormScreen() {
         var isPriceError by remember {
             mutableStateOf(false)
         }
-        Column {
-            TextField(
-                value = price,
-                onValueChange = {
-                    isPriceError = try {
-                        BigDecimal(it)
-                        false
-                    } catch (e: IllegalArgumentException) {
-                        it.isNotEmpty()
-                    }
-                    price = it
-                },
-                Modifier.fillMaxWidth(),
-                isError = isPriceError,
-                label = {
-                    Text(text = "Preço")
-                },
-                keyboardOptions =
-                KeyboardOptions(
-                    keyboardType = KeyboardType.Decimal,
-                    imeAction = ImeAction.Next,
-                ),
-            )
-            if (isPriceError) {
-                Text(
-                    text = "Preço deve ser um número decimal",
-                    color = MaterialTheme.colorScheme.error,
-                    style = MaterialTheme.typography.bodySmall,
-                    modifier = Modifier.padding(start = 16.dp)
-                )
-            }
-        }
+
+        ColumnTextFieldError(price,
+            isPriceError,
+            onTextChange = {
+                isPriceError = try {
+                    BigDecimal(it)
+                    false
+                } catch (e: IllegalArgumentException) {
+                    it.isNotEmpty()
+                }
+                price = it
+        })
         var description by remember {
             mutableStateOf("")
         }
