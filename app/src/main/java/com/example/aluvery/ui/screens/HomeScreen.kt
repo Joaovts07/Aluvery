@@ -28,32 +28,24 @@ import com.example.aluvery.sampledata.sampleProducts
 import com.example.aluvery.sampledata.sampleSections
 import com.example.aluvery.ui.components.CardProductItem
 import com.example.aluvery.ui.components.ProductsSection
+import com.example.aluvery.ui.components.SeachTextField
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun HomeScreen(
     sections: Map<String,List<Product>>,
     searchText: String = ""
 ) {
     Column {
-        var text by remember { mutableStateOf(searchText) }
+        var text by remember {
+            mutableStateOf(searchText)
+        }
+        SeachTextField(searchText = text, onSearchChange = {
+            text = it
+        })
         val sampleProductFiltered = remember(text) {
             searchProducts(text)
         } 
-        OutlinedTextField(value = text, onValueChange = { newValue ->
-            text = newValue
-        },
-            Modifier
-                .padding(
-                    16.dp
-                )
-                .fillMaxWidth(), shape = RoundedCornerShape(100), leadingIcon = {
-            Icon(Icons.Default.Search, contentDescription = null)
-        }, label = {
-            Text(text = "Produto")
-        }, placeholder = {
-            Text(text = "O que você procura?")
-        })
+
         LazyColumn(
             Modifier.fillMaxSize(),
             verticalArrangement = Arrangement.spacedBy(16.dp),
