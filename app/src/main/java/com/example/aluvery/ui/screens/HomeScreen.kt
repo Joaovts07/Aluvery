@@ -1,5 +1,6 @@
 package com.example.aluvery.ui.screens
 
+import android.util.Log
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
@@ -30,28 +31,52 @@ import com.example.aluvery.ui.components.CardProductItem
 import com.example.aluvery.ui.components.ProductsSection
 import com.example.aluvery.ui.components.SeachTextField
 
+class HomeScreenUiState() {
+
+    var text by mutableStateOf("")
+
+
+    val searchedProduct get() =
+        if(text.isNotBlank()) {
+            sampleProducts.filter { product ->
+                product.name.contains(
+                    text,
+                    ignoreCase = true
+                ) || product.description?.contains(
+                    text,
+                    ignoreCase = true
+                ) ?: false
+            }
+        } else emptyList()
+
+    fun isShowSection(): Boolean =  text.isBlank()
+}
+
 @Composable
 fun HomeScreen(
     sections: Map<String,List<Product>>,
     searchText: String = ""
 ) {
     Column {
-        var text by remember {
-            mutableStateOf(searchText)
+        val state = remember {
+            HomeScreenUiState()
         }
-        SeachTextField(searchText = text, onSearchChange = {
-            text = it
+        val searchedProduct = remember(state.text) {
+            state.searchedProduct
+        }
+        SeachTextField(searchText = state.text, onSearchChange = {
+            state.text = it
         })
-        val sampleProductFiltered = remember(text) {
+        /*val sampleProductFiltered = remember(text) {
             searchProducts(text)
-        } 
+        } */
 
         LazyColumn(
             Modifier.fillMaxSize(),
             verticalArrangement = Arrangement.spacedBy(16.dp),
             contentPadding = PaddingValues(bottom = 16.dp)
         ) {
-            if (text.isBlank()) {
+            if (state.isShowSection()) {
                 for (section in sections) {
                     val title = section.key
                     val products = section.value
@@ -62,7 +87,7 @@ fun HomeScreen(
                     }
                 }
             } else {
-                items(sampleProductFiltered) { product ->
+                items(searchedProduct) { product ->
                     CardProductItem(
                         product = product,
                         Modifier.padding(horizontal = 32.dp),
@@ -70,17 +95,6 @@ fun HomeScreen(
                 }
             }
         }
-    }
-}
-
-private fun searchProducts(text: String): List<Product> {
-     return if (text.isNotBlank()) {
-        sampleProducts.filter {
-            it.name.contains(text,true) ||
-                    it.description?.contains(text,true) ?: false
-        }
-    } else {
-        emptyList()
     }
 }
 
