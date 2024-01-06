@@ -1,6 +1,5 @@
 package com.example.aluvery.ui.screens
 
-import android.util.Log
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
@@ -9,13 +8,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Search
-import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.Icon
-import androidx.compose.material3.OutlinedTextField
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -29,13 +21,12 @@ import com.example.aluvery.sampledata.sampleProducts
 import com.example.aluvery.sampledata.sampleSections
 import com.example.aluvery.ui.components.CardProductItem
 import com.example.aluvery.ui.components.ProductsSection
-import com.example.aluvery.ui.components.SeachTextField
+import com.example.aluvery.ui.components.SearchTextField
 
-class HomeScreenUiState() {
+class HomeScreenUiState(searchText: String = "") {
 
-    var text by mutableStateOf("")
-
-
+    var text by mutableStateOf(searchText)
+        private set
     val searchedProduct get() =
         if(text.isNotBlank()) {
             sampleProducts.filter { product ->
@@ -50,26 +41,29 @@ class HomeScreenUiState() {
         } else emptyList()
 
     fun isShowSection(): Boolean =  text.isBlank()
+
+    val onSearchChange: (String) -> Unit = {searchText ->
+        text = searchText
+    }
 }
 
 @Composable
 fun HomeScreen(
     sections: Map<String,List<Product>>,
-    searchText: String = ""
+    state: HomeScreenUiState = HomeScreenUiState()
 ) {
     Column {
-        val state = remember {
-            HomeScreenUiState()
-        }
+
         val searchedProduct = remember(state.text) {
             state.searchedProduct
         }
-        SeachTextField(searchText = state.text, onSearchChange = {
-            state.text = it
-        })
-        /*val sampleProductFiltered = remember(text) {
-            searchProducts(text)
-        } */
+        SearchTextField(
+            searchText = state.text,
+            onSearchChange = state.onSearchChange,
+            Modifier
+                .padding(16.dp)
+                .fillMaxWidth(),
+        )
 
         LazyColumn(
             Modifier.fillMaxSize(),
@@ -101,7 +95,9 @@ fun HomeScreen(
 @Preview(showSystemUi = true)
 @Composable
 fun HomeScreenPreview() {
-    HomeScreen(sampleSections)
+    HomeScreen(sampleSections,
+        HomeScreenUiState()
+        )
 }
 
 @Preview(showSystemUi = true)
@@ -109,5 +105,5 @@ fun HomeScreenPreview() {
 fun HomeScreenPreviewWithFilter() {
     HomeScreen(
         sampleSections,
-        "pizza")
+        HomeScreenUiState("a"))
 }
