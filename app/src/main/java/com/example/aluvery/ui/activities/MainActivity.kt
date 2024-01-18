@@ -45,7 +45,7 @@ class MainActivity : ComponentActivity() {
                     "Bebidas" to sampleDrinks
                 )
                 val state = remember(sections) {
-                    HomeScreenUiState( sections = sections)
+                    HomeScreenUiState( sections = sections, products = dao.products())
                 }
                 HomeScreen(state = state)
             }

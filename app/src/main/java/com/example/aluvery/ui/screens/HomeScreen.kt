@@ -24,7 +24,9 @@ import com.example.aluvery.ui.components.ProductsSection
 import com.example.aluvery.ui.components.SearchTextField
 
 class HomeScreenUiState(
-    searchText: String = "", val sections: Map<String,List<Product>> = emptyMap()
+    searchText: String = "",
+    val sections: Map<String,List<Product>> = emptyMap(),
+    private val products: List<Product> = emptyList()
 ) {
 
     var text by mutableStateOf(searchText)
@@ -32,15 +34,19 @@ class HomeScreenUiState(
     val searchedProduct get() =
         if(text.isNotBlank()) {
             sampleProducts.filter { product ->
-                product.name.contains(
-                    text,
-                    ignoreCase = true
-                ) || product.description?.contains(
-                    text,
-                    ignoreCase = true
-                ) ?: false
+                contenInNameOrDescription(product)
+            } + products.filter {
+                contenInNameOrDescription(it)
             }
         } else emptyList()
+
+    private fun contenInNameOrDescription(product: Product) = product.name.contains(
+        text,
+        ignoreCase = true
+    ) || product.description?.contains(
+        text,
+        ignoreCase = true
+    ) ?: false
 
     fun isShowSection(): Boolean =  text.isBlank()
 
