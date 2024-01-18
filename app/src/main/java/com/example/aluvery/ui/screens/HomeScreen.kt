@@ -23,7 +23,9 @@ import com.example.aluvery.ui.components.CardProductItem
 import com.example.aluvery.ui.components.ProductsSection
 import com.example.aluvery.ui.components.SearchTextField
 
-class HomeScreenUiState(searchText: String = "") {
+class HomeScreenUiState(
+    searchText: String = "", val sections: Map<String,List<Product>> = emptyMap()
+) {
 
     var text by mutableStateOf(searchText)
         private set
@@ -49,7 +51,6 @@ class HomeScreenUiState(searchText: String = "") {
 
 @Composable
 fun HomeScreen(
-    sections: Map<String,List<Product>>,
     state: HomeScreenUiState = HomeScreenUiState()
 ) {
     Column {
@@ -57,6 +58,7 @@ fun HomeScreen(
         val searchedProduct = remember(state.text) {
             state.searchedProduct
         }
+        val sections = state.sections
         SearchTextField(
             searchText = state.text,
             onSearchChange = state.onSearchChange,
@@ -95,15 +97,12 @@ fun HomeScreen(
 @Preview(showSystemUi = true)
 @Composable
 fun HomeScreenPreview() {
-    HomeScreen(sampleSections,
-        HomeScreenUiState()
-        )
+    HomeScreen(HomeScreenUiState(sections = sampleSections))
 }
 
 @Preview(showSystemUi = true)
 @Composable
 fun HomeScreenPreviewWithFilter() {
     HomeScreen(
-        sampleSections,
-        HomeScreenUiState("a"))
+        HomeScreenUiState("a", sampleSections))
 }
