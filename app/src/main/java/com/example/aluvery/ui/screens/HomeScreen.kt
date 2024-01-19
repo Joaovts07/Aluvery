@@ -24,35 +24,14 @@ import com.example.aluvery.ui.components.ProductsSection
 import com.example.aluvery.ui.components.SearchTextField
 
 class HomeScreenUiState(
-    searchText: String = "",
+    val searchText: String = "",
     val sections: Map<String,List<Product>> = emptyMap(),
-    private val products: List<Product> = emptyList()
+    val searchdProducts: List<Product> = emptyList(),
+    val onSearchChange: (String) -> Unit = {}
 ) {
 
-    var text by mutableStateOf(searchText)
-        private set
-    val searchedProduct get() =
-        if(text.isNotBlank()) {
-            sampleProducts.filter { product ->
-                contenInNameOrDescription(product)
-            } + products.filter {
-                contenInNameOrDescription(it)
-            }
-        } else emptyList()
+    fun isShowSection(): Boolean =  searchText.isBlank()
 
-    private fun contenInNameOrDescription(product: Product) = product.name.contains(
-        text,
-        ignoreCase = true
-    ) || product.description?.contains(
-        text,
-        ignoreCase = true
-    ) ?: false
-
-    fun isShowSection(): Boolean =  text.isBlank()
-
-    val onSearchChange: (String) -> Unit = {searchText ->
-        text = searchText
-    }
 }
 
 @Composable
@@ -61,12 +40,9 @@ fun HomeScreen(
 ) {
     Column {
 
-        val searchedProduct = remember(state.text) {
-            state.searchedProduct
-        }
         val sections = state.sections
         SearchTextField(
-            searchText = state.text,
+            searchText = state.searchText,
             onSearchChange = state.onSearchChange,
             Modifier
                 .padding(16.dp)
@@ -89,7 +65,7 @@ fun HomeScreen(
                     }
                 }
             } else {
-                items(searchedProduct) { product ->
+                items(state.searchdProducts) { product ->
                     CardProductItem(
                         product = product,
                         Modifier.padding(horizontal = 32.dp),
