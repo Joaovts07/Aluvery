@@ -17,6 +17,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.aluvery.model.Product
+import com.example.aluvery.sampledata.sampleCandies
+import com.example.aluvery.sampledata.sampleDrinks
 import com.example.aluvery.sampledata.sampleProducts
 import com.example.aluvery.sampledata.sampleSections
 import com.example.aluvery.ui.components.CardProductItem
@@ -34,6 +36,46 @@ class HomeScreenUiState(
 
 }
 
+@Composable
+fun HomeScreen(products: List<Product>) {
+
+    val sections = mapOf(
+        "Todos os Produtos" to products,
+        "Promoções" to sampleDrinks + sampleCandies,
+        "Doces" to sampleCandies,
+        "Bebidas" to sampleDrinks
+    )
+    var text by remember {
+        mutableStateOf("")
+    }
+
+    fun containsInNameOrDescription(): (Product) -> Boolean = { product ->
+        product.name.contains(
+            text,
+            ignoreCase = true
+        ) || product.description?.contains(
+            text,
+            ignoreCase = true
+        ) ?: false
+    }
+
+    val searchedProduct = remember(text, products) {
+        if(text.isNotBlank()) {
+            sampleProducts.filter(containsInNameOrDescription()) + products.filter(containsInNameOrDescription())
+        } else emptyList()
+    }
+
+    val state = remember(products, text) {
+        HomeScreenUiState(
+            sections = sections,
+            searchdProducts = searchedProduct,
+            searchText = text
+        ) {
+            text = it
+        }
+    }
+    HomeScreen(state = state)
+}
 @Composable
 fun HomeScreen(
     state: HomeScreenUiState = HomeScreenUiState()
