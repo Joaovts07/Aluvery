@@ -15,6 +15,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
@@ -40,7 +41,7 @@ fun CardProductItem(
     modifier: Modifier = Modifier,
     elevation: Dp = 4.dp,
 ) {
-    var expanded by remember { mutableStateOf (false) }
+    var expanded by rememberSaveable { mutableStateOf (false) }
     Card(
         onClick = {expanded = !expanded},
         modifier

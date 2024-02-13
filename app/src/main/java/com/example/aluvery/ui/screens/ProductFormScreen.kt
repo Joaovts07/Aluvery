@@ -108,13 +108,13 @@ fun ProductFormScreen(
         ColumnTextFieldError(price,
             isPriceError,
             onTextChange = {
-                /*isPriceError = try {
+                isPriceError = try {
                     BigDecimal(it)
                     false
                 } catch (e: IllegalArgumentException) {
                     it.isNotEmpty()
                 }
-                price = it*/
+                price = it
 
             })
         var description by remember {
