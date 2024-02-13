@@ -19,6 +19,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.RectangleShape
@@ -84,7 +85,7 @@ fun ProductFormScreen(
                 imeAction = ImeAction.Next
             )
         )
-        var name by remember {
+        var name by rememberSaveable {
             mutableStateOf("")
         }
         TextField(value = name, onValueChange = {

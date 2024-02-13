@@ -74,14 +74,14 @@ fun CardProductItem(
                     text = product.price.toBrazilianCurrency()
                 )
             }
-            ShowDescripiton(expanded, product)
+            ShowDescripition(expanded, product)
 
         }
     }
 }
 
 @Composable
-private fun ShowDescripiton(expanded: Boolean, product: Product) {
+private fun ShowDescripition(expanded: Boolean, product: Product) {
     if (expanded) {
         product.description?.let {
             Text(
