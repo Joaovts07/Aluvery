@@ -1,4 +1,4 @@
-package com.example.aluvery.ui.screens
+package com.example.aluvery.ui.states
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -25,8 +25,9 @@ import com.example.aluvery.sampledata.sampleSections
 import com.example.aluvery.ui.components.CardProductItem
 import com.example.aluvery.ui.components.ProductsSection
 import com.example.aluvery.ui.components.SearchTextField
+import com.example.aluvery.ui.viewmodels.HomeScreenViewModel
 
-class HomeScreenUiState(
+data class HomeScreenUiState(
     val searchText: String = "",
     val sections: Map<String,List<Product>> = emptyMap(),
     val searchdProducts: List<Product> = emptyList(),
@@ -38,43 +39,10 @@ class HomeScreenUiState(
 }
 
 @Composable
-fun HomeScreen(products: List<Product>) {
-
-    val sections = mapOf(
-        "Todos os Produtos" to products,
-        "Promoções" to sampleDrinks + sampleCandies,
-        "Doces" to sampleCandies,
-        "Bebidas" to sampleDrinks
-    )
-    var text by rememberSaveable {
-        mutableStateOf("")
-    }
-
-    fun containsInNameOrDescription(): (Product) -> Boolean = { product ->
-        product.name.contains(
-            text,
-            ignoreCase = true
-        ) || product.description?.contains(
-            text,
-            ignoreCase = true
-        ) ?: false
-    }
-
-    val searchedProduct = remember(text, products) {
-        if(text.isNotBlank()) {
-            sampleProducts.filter(containsInNameOrDescription()) + products.filter(containsInNameOrDescription())
-        } else emptyList()
-    }
-
-    val state = remember(products, text) {
-        HomeScreenUiState(
-            sections = sections,
-            searchdProducts = searchedProduct,
-            searchText = text
-        ) {
-            text = it
-        }
-    }
+fun HomeScreen(
+    viewModel: HomeScreenViewModel
+) {
+    val state = viewModel.uiState
     HomeScreen(state = state)
 }
 @Composable
@@ -129,5 +97,6 @@ fun HomeScreenPreview() {
 @Composable
 fun HomeScreenPreviewWithFilter() {
     HomeScreen(
-        HomeScreenUiState("a", sampleSections))
+        HomeScreenUiState("a", sampleSections)
+    )
 }
