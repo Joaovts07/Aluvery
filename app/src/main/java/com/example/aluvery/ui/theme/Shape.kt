@@ -1,4 +1,4 @@
-package br.com.alura.aluvery.ui.theme
+package com.example.aluvery.ui.theme
 
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Shapes
