@@ -35,14 +35,9 @@ import coil.compose.AsyncImage
 import com.example.aluvery.R
 import com.example.aluvery.model.Product
 import com.example.aluvery.ui.components.ColumnTextFieldError
+import com.example.aluvery.ui.states.ProductFormScreenUIState
 import java.lang.NumberFormatException
 import java.math.BigDecimal
-
-class ProductFormScreenUIState(
-    val onSaveClick: (Product) -> Unit ={},
-) {
-    fun isNotBlank(url: String): Boolean = url.isNotBlank()
-}
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable

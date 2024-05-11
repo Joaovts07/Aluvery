@@ -8,7 +8,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.tooling.preview.Preview
 import com.example.aluvery.dao.ProductDao
 import com.example.aluvery.ui.screens.ProductFormScreen
-import com.example.aluvery.ui.screens.ProductFormScreenUIState
+import com.example.aluvery.ui.states.ProductFormScreenUIState
 import com.example.aluvery.ui.theme.AluveryTheme
 
 class ProductFormActivity: ComponentActivity() {
